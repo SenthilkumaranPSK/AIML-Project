@@ -1,0 +1,443 @@
+/* Main Styles for Malpractice Detection System */
+
+:root {
+    --primary-color: #007bff;
+    --danger-color: #dc3545;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --dark-color: #343a40;
+    --light-color: #f8f9fa;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+/* Landing Page Styles */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.detection-info {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid var(--primary-color);
+}
+
+.detection-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 5px 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.detection-item i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    width: 30px;
+    text-align: center;
+}
+
+/* Monitoring Page Styles */
+.video-container {
+    position: relative;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.video-stream {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+    color: white;
+}
+
+.timestamp {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.status-indicator {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(40, 167, 69, 0.9);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Statistics Cards */
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin: 10px 0;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stat-hand-gestures {
+    border-left: 5px solid var(--danger-color);
+}
+
+.stat-hand-gestures i {
+    color: var(--danger-color);
+}
+
+.stat-mobile {
+    border-left: 5px solid var(--primary-color);
+}
+
+.stat-mobile i {
+    color: var(--primary-color);
+}
+
+.stat-talking {
+    border-left: 5px solid var(--warning-color);
+}
+
+.stat-talking i {
+    color: var(--warning-color);
+}
+
+.stat-total {
+    border-left: 5px solid var(--info-color);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.stat-total i {
+    color: white;
+}
+
+/* Alerts Container */
+.alerts-container {
+    max-height: 400px;
+    overflow-y: auto;
+    background: #f8f9fa;
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+    margin: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.alert-detection {
+    background: #fff3cd;
+    color: #856404;
+    border-left: 4px solid #ffc107;
+}
+
+.alert-detection.hand-gesture {
+    background: #f8d7da;
+    color: #721c24;
+    border-left-color: #dc3545;
+}
+
+.alert-detection.mobile-phone {
+    background: #d1ecf1;
+    color: #0c5460;
+    border-left-color: #17a2b8;
+}
+
+.alert-detection.talking {
+    background: #fff3cd;
+    color: #856404;
+    border-left-color: #ffc107;
+}
+
+/* Session Information */
+.session-info p {
+    margin: 8px 0;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border-left: 3px solid var(--primary-color);
+}
+
+/* Animations */
+.blink {
+    animation: blinker 1.5s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* Summary Page Styles */
+.summary-stat {
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.detection-stat {
+    padding: 30px 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.detection-stat:hover {
+    transform: translateY(-5px);
+}
+
+.detection-stat.stat-hand-gestures i {
+    color: var(--danger-color);
+}
+
+.detection-stat.stat-mobile i {
+    color: var(--primary-color);
+}
+
+.detection-stat.stat-talking i {
+    color: var(--warning-color);
+}
+
+/* Table Styles */
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table th {
+    background: var(--dark-color);
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 15px;
+}
+
+.table td {
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Detection Badges */
+.detection-badge-hand_gestures {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.detection-badge-mobile_phone {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.detection-badge-talking {
+    background-color: var(--warning-color);
+    color: black;
+}
+
+/* Progress Bars */
+.progress-bar-hand_gestures {
+    background-color: var(--danger-color);
+}
+
+.progress-bar-mobile_phone {
+    background-color: var(--primary-color);
+}
+
+.progress-bar-talking {
+    background-color: var(--warning-color);
+}
+
+/* Filter Buttons */
+.btn-group .btn.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 10px;
+    }
+    
+    .video-stream {
+        max-height: 300px;
+    }
+    
+    .stat-card {
+        padding: 15px;
+        margin: 5px 0;
+    }
+    
+    .detection-stat {
+        padding: 20px 15px;
+        margin: 10px 0;
+    }
+    
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-group .btn {
+        margin: 2px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .video-overlay {
+        padding: 10px;
+    }
+    
+    .timestamp {
+        font-size: 12px;
+    }
+    
+    .status-indicator {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+    
+    .alerts-container {
+        max-height: 250px;
+    }
+    
+    .detection-stat h3 {
+        font-size: 2rem;
+    }
+    
+    .detection-stat i {
+        font-size: 2rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+    }
+    
+    .navbar, .btn, .modal {
+        display: none !important;
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .table {
+        font-size: 12px;
+    }
+    
+    .detection-stat {
+        break-inside: avoid;
+    }
+}
+
+/* Custom Scrollbar */
+.alerts-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.alerts-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.alerts-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.alerts-container::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Success/Error Messages */
+.flash-messages {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    z-index: 1050;
+    max-width: 400px;
+}
+
+.flash-message {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.5s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

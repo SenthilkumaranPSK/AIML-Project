@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Summary - Malpractice Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-chart-line me-2"></i>
+                Session Summary
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="btn btn-outline-light me-2" href="{{ url_for('export_pdf') }}">
+                    <i class="fas fa-file-pdf me-2"></i>Export PDF
+                </a>
+                <form action="/reset_session" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-outline-light">
+                        <i class="fas fa-plus me-2"></i>New Session
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Session Overview -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">
+                            <i class="fas fa-clipboard-check me-2"></i>
+                            Monitoring Session Summary
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="summary-stat">
+                                    <h5 class="text-primary">Session Duration</h5>
+                                    <p class="h6">{{ duration if duration else 'N/A' }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="summary-stat">
+                                    <h5 class="text-primary">Start Time</h5>
+                                    <p class="h6">
+                                        {% if session_start %}
+                                            {{ session_start.split('T')[0] }}<br>
+                                            {{ session_start.split('T')[1].split('.')[0] }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="summary-stat">
+                                    <h5 class="text-primary">End Time</h5>
+                                    <p class="h6">
+                                        {% if session_end %}
+                                            {{ session_end.split('T')[0] }}<br>
+                                            {{ session_end.split('T')[1].split('.')[0] }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="summary-stat">
+                                    <h5 class="text-primary">Total Events</h5>
+                                    <p class="h6">{{ malpractice_log|length }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detection Statistics -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-pie me-2"></i>
+                            Detection Statistics
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                <div class="detection-stat stat-hand-gestures">
+                                    <i class="fas fa-hand-paper fa-3x mb-3"></i>
+                                    <h3>{{ counts.hand_gestures }}</h3>
+                                    <p class="mb-0">Suspicious Hand Gestures</p>
+                                    <div class="progress mt-2">
+                                        <div class="progress-bar bg-danger" role="progressbar" 
+                                             style="width: {% if malpractice_log|length > 0 %}{{ (counts.hand_gestures / malpractice_log|length * 100)|round(1) }}%{% else %}0%{% endif %}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="detection-stat stat-mobile">
+                                    <i class="fas fa-mobile-alt fa-3x mb-3"></i>
+                                    <h3>{{ counts.mobile_phone }}</h3>
+                                    <p class="mb-0">Mobile Phone Usage</p>
+                                    <div class="progress mt-2">
+                                        <div class="progress-bar bg-primary" role="progressbar" 
+                                             style="width: {% if malpractice_log|length > 0 %}{{ (counts.mobile_phone / malpractice_log|length * 100)|round(1) }}%{% else %}0%{% endif %}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="detection-stat stat-talking">
+                                    <i class="fas fa-comments fa-3x mb-3"></i>
+                                    <h3>{{ counts.talking }}</h3>
+                                    <p class="mb-0">Talking/Mouth Movement</p>
+                                    <div class="progress mt-2">
+                                        <div class="progress-bar bg-warning" role="progressbar" 
+                                             style="width: {% if malpractice_log|length > 0 %}{{ (counts.talking / malpractice_log|length * 100)|round(1) }}%{% else %}0%{% endif %}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Events Log -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list me-2"></i>
+                            Detailed Events Log ({{ malpractice_log|length }} events)
+                        </h5>
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-outline-light" onclick="filterEvents('all')" id="filter-all">All</button>
+                            <button type="button" class="btn btn-outline-light" onclick="filterEvents('hand_gestures')" id="filter-hand">Gestures</button>
+                            <button type="button" class="btn btn-outline-light" onclick="filterEvents('mobile_phone')" id="filter-mobile">Mobile</button>
+                            <button type="button" class="btn btn-outline-light" onclick="filterEvents('talking')" id="filter-talking">Talking</button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        {% if malpractice_log %}
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover mb-0">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Time</th>
+                                        <th>Detection Type</th>
+                                        <th>Confidence</th>
+                                        <th>Snapshot</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="eventsTableBody">
+                                    {% for event in malpractice_log %}
+                                    <tr class="event-row" data-type="{{ event.type }}">
+                                        <td>{{ loop.index }}</td>
+                                        <td>
+                                            <small>
+                                                {{ event.timestamp.split('T')[1].split('.')[0] }}<br>
+                                                <span class="text-muted">{{ event.timestamp.split('T')[0] }}</span>
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <span class="badge detection-badge-{{ event.type }}">
+                                                {% if event.type == 'hand_gestures' %}
+                                                    <i class="fas fa-hand-paper me-1"></i>Hand Gestures
+                                                {% elif event.type == 'mobile_phone' %}
+                                                    <i class="fas fa-mobile-alt me-1"></i>Mobile Phone
+                                                {% elif event.type == 'talking' %}
+                                                    <i class="fas fa-comments me-1"></i>Talking
+                                                {% endif %}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="progress" style="height: 20px;">
+                                                <div class="progress-bar progress-bar-{{ event.type }}" role="progressbar" 
+                                                     style="width: {{ (event.confidence * 100)|round(1) }}%">
+                                                    {{ (event.confidence * 100)|round(1) }}%
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {% if event.snapshot %}
+                                                <button type="button" class="btn btn-sm btn-outline-primary" 
+                                                        onclick="viewSnapshot('{{ event.snapshot }}')">
+                                                    <i class="fas fa-image me-1"></i>View
+                                                </button>
+                                            {% else %}
+                                                <span class="text-muted">N/A</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                {% if event.snapshot %}
+                                                <a href="{{ url_for('get_snapshot', filename=event.snapshot) }}" 
+                                                   class="btn btn-outline-success" download>
+                                                    <i class="fas fa-download"></i>
+                                                </a>
+                                                {% endif %}
+                                                <button type="button" class="btn btn-outline-info" 
+                                                        onclick="showEventDetails({{ loop.index0 }})">
+                                                    <i class="fas fa-info"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center p-5">
+                            <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                            <h4>No Malpractice Detected</h4>
+                            <p class="text-muted">This monitoring session completed without any suspicious activities.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions Panel -->
+        <div class="row mt-4 mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h6 class="card-title">Session Actions</h6>
+                        <div class="btn-group" role="group">
+                            <a href="{{ url_for('export_pdf') }}" class="btn btn-primary">
+                                <i class="fas fa-file-pdf me-2"></i>Export PDF Report
+                            </a>
+                            <button type="button" class="btn btn-info" onclick="printSummary()">
+                                <i class="fas fa-print me-2"></i>Print Summary
+                            </button>
+                            <form action="/reset_session" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-plus me-2"></i>Start New Session
+                                </button>
+                            </form>
+                            <a href="/" class="btn btn-secondary">
+                                <i class="fas fa-home me-2"></i>Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Snapshot Modal -->
+    <div class="modal fade" id="snapshotModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-camera me-2"></i>Event Snapshot
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="snapshotImage" class="img-fluid" alt="Event Snapshot">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a id="downloadSnapshot" class="btn btn-primary" download>
+                        <i class="fas fa-download me-2"></i>Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Details Modal -->
+    <div class="modal fade" id="eventDetailsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-info-circle me-2"></i>Event Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="eventDetailsBody">
+                    <!-- Event details will be populated here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/summary.js') }}"></script>
+    <script>
+        // Pass malpractice log data to JavaScript
+        const malpracticeLog = {{ malpractice_log|tojson }};
+    </script>
+</body>
+</html>

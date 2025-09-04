@@ -1,0 +1,11 @@
+# This file is a placeholder for the YOLOv8 model
+# The actual model file will be downloaded automatically by ultralytics
+# when the MalpracticeDetector class is initialized
+
+# Model download is handled in detection.py:
+# self.yolo_model = YOLO('yolov8n.pt')  # Will download if not present
+
+# For manual download, you can use:
+# wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt
+
+print("YOLOv8 model will be downloaded automatically when needed.")
