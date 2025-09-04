@@ -1,0 +1,77 @@
+I want to build a Final Year Project: "Student Malpractice Detection in Exam Hall" using AI/ML, YOLO, OpenCV, MediaPipe, Python, Flask, HTML/CSS/JS.
+
+The system should have the following requirements and features:
+
+
+
+1. Landing Page:
+
+First page has a Start Monitoring button.
+
+Also add an button for using local video
+When monitoring stops, it redirects to a Summary Page.
+
+2. Live Video Feed:
+Real-time detection of:
+
+Hand gestures (indicating cheating)
+
+Mobile phone usage
+
+Talking / suspicious mouth movements
+
+Each detection should:
+
+Be visibly overlaid on video (bounding boxes, labels)
+
+Trigger instant alerts displayed on the page
+
+Automatically save a snapshot with timestamp
+
+
+3. Malpractice Logging:
+
+Log each event with timestamp, type of malpractice, and count of occurrences.
+
+Maintain cumulative counts per student session.
+
+4. Summary Page:
+
+Display a table of all malpractice events with timestamps.
+
+Display thumbnails of snapshots captured during malpractice events.
+Display counts of each malpractice type.
+Optional: Ability to export log as PDF for teacher records.
+
+5. UI / Dashboard Requirements:
+
+Clean, professional dashboard style using HTML/CSS/JS.
+
+Alerts area on the live feed page showing real-time detections.
+Responsive layout with proper video feed and logs display.
+
+6. Technical Details:
+Python 3.10+, Flask for backend, OpenCV for video streaming.
+
+MediaPipe Hands for hand gesture detection.
+MediaPipe Face Mesh for talking/mouth detection.
+YOLOv8/YOLOv5 for mobile detection.
+Snapshots stored locally in a folder, served in summary page.
+Maintain a malpractice_log as a Python list/dictionary.
+
+7. Additional Features to Make It Submission-Ready:
+Counts of attempts per type (hand gestures, mobile, talking).
+
+Polished summary dashboard with CSS styling.
+Real-time updates in the live feed page for teacher to monitor.
+Easy start/stop session workflow.
+
+8. Deliverables:
+Full Flask project with templates (HTML/CSS/JS), static folder, snapshots folder.
+
+Complete app.py for backend handling of streaming, detection, logging, and summary.
+Fully functional live feed with alerts, snapshots, and summary dashboard.
+I want you to provide step-by-step implementation, full code, and final professional structure, so that it is ready for final year project submission.
+
+
+Always assume that we want accurate, professional, and visually clear detection system suitable for a teacher to monitor exams.
